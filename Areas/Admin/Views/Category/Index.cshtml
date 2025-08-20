@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "Category List";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Category List</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+<p>
+    @Html.ActionLink("Create New Category", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+<form method="get" action="@Url.Action("Index", "Category")" class="mb-4">
+    <div class="input-group" style="max-width: 400px;">
+        <input type="text" name="search" value="@ViewBag.Search" placeholder="🔍 Search product name..."
+               class="form-control" />
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Active</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var list = ViewBag.Categories as List<WBookStore.Models.ModelViews.CategoryView>;
+            if (list != null)
+            {
+                int i = ViewBag.StartIndex;
+                foreach (var c in list)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@c.Name</td>
+                        <td>@(c.Active == 1 ? "Active" : "Inactive")</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(c.Image))
+                            {
+                                var imgPath = "/Content/Images/" + c.Image;
+                                <img src="@Url.Content(imgPath)" alt="Image" style="height:50px;" />
+                            }
+                        </td>
+
+
+                        <td>
+                            <a href="@Url.Action("Edit", "Category", new { id = c.Id})" class="btn btn-warning btn-sm" style="display:inline-flex; align-items:center;">
+                                <img src="@Url.Content("~/Content/Icon/pen.png")" alt="Edit" style="height:16px; margin-right:5px;" />
+                                Edit
+                            </a>
+                            |
+                            @using (Html.BeginForm("Delete", "Category", FormMethod.Post, new { style = "display:inline" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("id", c.Id)
+                                <button type="submit" class="btn btn-dark btn-sm" onclick="return confirm('Bạn có chắc muốn xóa?');" style="display:inline-flex; align-items:center;">
+                                    <img src="@Url.Content("~/Content/Icon/delete.png")" alt="Delete" style="height:16px; margin-right:5px;" />
+                                    Delete
+                                </button>
+                            }
+
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+            else
+            {
+                <tr><td colspan="5" class="text-center">No categories found.</td></tr>
+            }
+        }
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<nav aria-label="Page navigation" class="mt-3">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+            <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1, search = ViewBag.Search })">Previous</a>
+        </li>
+
+        @for (int j = 1; j <= ViewBag.TotalPages; j++)
+        {
+            <li class="page-item @(j == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = j, search = ViewBag.Search })">@j</a>
+            </li>
+        }
+
+        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+            <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1, search = ViewBag.Search })">Next</a>
+        </li>
+    </ul>
+</nav>

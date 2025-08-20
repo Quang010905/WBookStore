@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WebBookStoreModelStoreContainer" CdmEntityContainer="WebBookStoreEntities">
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="WebBookStoreModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_cart">
+      <EntityTypeMapping TypeName="WebBookStoreModel.tbl_cart">
+        <MappingFragment StoreEntitySet="tbl_cart">
+          <ScalarProperty Name="C_id" ColumnName="_id" />
+          <ScalarProperty Name="C_price" ColumnName="_price" />
+          <ScalarProperty Name="C_date" ColumnName="_date" />
+          <ScalarProperty Name="C_quantity" ColumnName="_quantity" />
+          <ScalarProperty Name="C_member_id" ColumnName="_member_id" />
+          <ScalarProperty Name="C_product_id" ColumnName="_product_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_category">
+      <EntityTypeMapping TypeName="WebBookStoreModel.tbl_category">
+        <MappingFragment StoreEntitySet="tbl_category">
+          <ScalarProperty Name="C_id" ColumnName="_id" />
+          <ScalarProperty Name="C_name" ColumnName="_name" />
+          <ScalarProperty Name="C_active" ColumnName="_active" />
+          <ScalarProperty Name="C_image" ColumnName="_image" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_member">
+      <EntityTypeMapping TypeName="WebBookStoreModel.tbl_member">
+        <MappingFragment StoreEntitySet="tbl_member">
+          <ScalarProperty Name="C_id" ColumnName="_id" />
+          <ScalarProperty Name="C_name" ColumnName="_name" />
+          <ScalarProperty Name="C_password" ColumnName="_password" />
+          <ScalarProperty Name="C_email" ColumnName="_email" />
+          <ScalarProperty Name="C_address" ColumnName="_address" />
+          <ScalarProperty Name="C_phone" ColumnName="_phone" />
+          <ScalarProperty Name="C_role" ColumnName="_role" />
+          <ScalarProperty Name="C_active" ColumnName="_active" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_member_address">
+      <EntityTypeMapping TypeName="WebBookStoreModel.tbl_member_address">
+        <MappingFragment StoreEntitySet="tbl_member_address">
+          <ScalarProperty Name="C_id" ColumnName="_id" />
+          <ScalarProperty Name="C_name" ColumnName="_name" />
+          <ScalarProperty Name="C_member_id" ColumnName="_member_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_order">
+      <EntityTypeMapping TypeName="WebBookStoreModel.tbl_order">
+        <MappingFragment StoreEntitySet="tbl_order">
+          <ScalarProperty Name="C_id" ColumnName="_id" />
+          <ScalarProperty Name="C_date" ColumnName="_date" />
+          <ScalarProperty Name="C_active" ColumnName="_active" />
+          <ScalarProperty Name="C_member_id" ColumnName="_member_id" />
+          <ScalarProperty Name="C_totalPrice" ColumnName="_totalPrice" />
+          <ScalarProperty Name="C_payment_method_id" ColumnName="_payment_method_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_order_detail">
+      <EntityTypeMapping TypeName="WebBookStoreModel.tbl_order_detail">
+        <MappingFragment StoreEntitySet="tbl_order_detail">
+          <ScalarProperty Name="C_id" ColumnName="_id" />
+          <ScalarProperty Name="C_price" ColumnName="_price" />
+          <ScalarProperty Name="C_quantity" ColumnName="_quantity" />
+          <ScalarProperty Name="C_order_id" ColumnName="_order_id" />
+          <ScalarProperty Name="C_product_id" ColumnName="_product_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_payment">
+      <EntityTypeMapping TypeName="WebBookStoreModel.tbl_payment">
+        <MappingFragment StoreEntitySet="tbl_payment">
+          <ScalarProperty Name="C_id" ColumnName="_id" />
+          <ScalarProperty Name="order_id" ColumnName="order_id" />
+          <ScalarProperty Name="payment_method_id" ColumnName="payment_method_id" />
+          <ScalarProperty Name="transaction_id" ColumnName="transaction_id" />
+          <ScalarProperty Name="vnpay_txn_ref" ColumnName="vnpay_txn_ref" />
+          <ScalarProperty Name="vnpay_bank_code" ColumnName="vnpay_bank_code" />
+          <ScalarProperty Name="vnpay_card_type" ColumnName="vnpay_card_type" />
+          <ScalarProperty Name="vnpay_pay_date" ColumnName="vnpay_pay_date" />
+          <ScalarProperty Name="vnpay_response_code" ColumnName="vnpay_response_code" />
+          <ScalarProperty Name="payment_status" ColumnName="payment_status" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="raw_request" ColumnName="raw_request" />
+          <ScalarProperty Name="raw_response" ColumnName="raw_response" />
+          <ScalarProperty Name="created_at" ColumnName="created_at" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_payment_method">
+      <EntityTypeMapping TypeName="WebBookStoreModel.tbl_payment_method">
+        <MappingFragment StoreEntitySet="tbl_payment_method">
+          <ScalarProperty Name="C_id" ColumnName="_id" />
+          <ScalarProperty Name="C_name" ColumnName="_name" />
+          <ScalarProperty Name="C_active" ColumnName="_active" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_product">
+      <EntityTypeMapping TypeName="WebBookStoreModel.tbl_product">
+        <MappingFragment StoreEntitySet="tbl_product">
+          <ScalarProperty Name="C_id" ColumnName="_id" />
+          <ScalarProperty Name="C_name" ColumnName="_name" />
+          <ScalarProperty Name="C_active" ColumnName="_active" />
+          <ScalarProperty Name="C_description" ColumnName="_description" />
+          <ScalarProperty Name="C_image" ColumnName="_image" />
+          <ScalarProperty Name="C_price" ColumnName="_price" />
+          <ScalarProperty Name="C_quantity" ColumnName="_quantity" />
+          <ScalarProperty Name="C_type" ColumnName="_type" />
+          <ScalarProperty Name="C_category_id" ColumnName="_category_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_product_image">
+      <EntityTypeMapping TypeName="WebBookStoreModel.tbl_product_image">
+        <MappingFragment StoreEntitySet="tbl_product_image">
+          <ScalarProperty Name="C_id" ColumnName="_id" />
+          <ScalarProperty Name="C_index" ColumnName="_index" />
+          <ScalarProperty Name="C_image" ColumnName="_image" />
+          <ScalarProperty Name="C_product_id" ColumnName="_product_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

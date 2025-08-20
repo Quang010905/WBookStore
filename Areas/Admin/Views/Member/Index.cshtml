@@ -1,0 +1,170 @@
+﻿@using WBookStore.Models.ModelViews
+@{
+    ViewBag.Title = "Member List";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    var list = ViewBag.Members as List<MemberView>;
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
+    string search = ViewBag.Search as string;
+    int startIndex = ViewBag.StartIndex;
+}
+
+<h2>Member List</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<!-- Search -->
+<form method="get" action="@Url.Action("Index", "Member", new { area = "Admin" })" class="mb-4">
+    <div class="input-group" style="max-width: 400px;">
+        <input type="text" name="search" value="@search" placeholder="🔍 Search by name or email..."
+               class="form-control" />
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
+        </div>
+    </div>
+</form>
+
+<!-- Table -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (list != null && list.Any())
+        {
+            int i = startIndex;
+            foreach (var m in list)
+            {
+                <tr id="row-@m.Id">
+                    <td>@i</td>
+                    <td>@m.Name</td>
+                    <td>@m.Email</td>
+                    <td>@m.Address</td>
+                    <td>@m.Phone</td>
+                    <td>@(m.Role == 1 ? "Admin" : "User")</td>
+                    <td class="status">
+                        @if (m.Active == 1)
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Inactive</span>
+                        }
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-warning toggle-active" data-id="@m.Id">
+                            @(m.Active == 1 ? "Deactivate" : "Activate")
+                        </button>
+                    </td>
+                </tr>
+                i++;
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" class="text-center">No members found.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Pagination -->
+@if (totalPages > 1)
+{
+    <nav aria-label="Page navigation" class="mt-3">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = currentPage - 1, search = search })">Previous</a>
+            </li>
+
+            @for (int j = 1; j <= totalPages; j++)
+            {
+                <li class="page-item @(j == currentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = j, search = search })">@j</a>
+                </li>
+            }
+
+            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = currentPage + 1, search = search })">Next</a>
+            </li>
+        </ul>
+    </nav>
+}
+
+@section scripts {
+    <script>
+        $(document).on("click", ".toggle-active", function () {
+            var id = $(this).data("id");
+            var btn = $(this);
+            var row = $("#row-" + id);
+
+            $.ajax({
+                url: "/api/member/toggle/" + id,
+                type: "PUT",
+                success: function (res) {
+                    if (res.active === 1) {
+                        row.find(".status").html('<span class="badge badge-success">Active</span>');
+                        btn.text("Deactivate").removeClass("btn-success").addClass("btn-warning");
+                        showAlert(res.message, "success");
+                    } else {
+                        row.find(".status").html('<span class="badge badge-danger">Inactive</span>');
+                        btn.text("Activate").removeClass("btn-warning").addClass("btn-success");
+                        showAlert(res.message, "warning");
+                    }
+                },
+                error: function () {
+                    showAlert("Có lỗi xảy ra khi cập nhật trạng thái", "danger");
+                }
+            });
+        });
+
+        // Hàm hiển thị alert bootstrap
+        function showAlert(message, type) {
+            var alertHtml = `
+                    <div class="alert alert-${type} alert-dismissible fade show mt-3" role="alert">
+                        ${message}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>`;
+            $("h2").after(alertHtml);
+
+            // auto hide sau 3s
+            setTimeout(function () {
+                $(".alert").alert('close');
+            }, 3000);
+        }
+    </script>
+}
+

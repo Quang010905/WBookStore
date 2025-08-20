@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="eb08d21666a544de8e83095e235a6459" Name="Diagram1">
+        <EntityTypeShape EntityType="WebBookStoreModel.sysdiagram" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBookStoreModel.tbl_cart" Width="1.5" PointX="10" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBookStoreModel.tbl_category" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBookStoreModel.tbl_member" Width="1.5" PointX="7.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBookStoreModel.tbl_member_address" Width="1.5" PointX="10" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBookStoreModel.tbl_order" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBookStoreModel.tbl_order_detail" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBookStoreModel.tbl_payment" Width="1.5" PointX="8.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBookStoreModel.tbl_payment_method" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBookStoreModel.tbl_product" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBookStoreModel.tbl_product_image" Width="1.5" PointX="5.25" PointY="8.5" IsExpanded="true" />
+        <AssociationConnector Association="WebBookStoreModel.FK__tbl_cart___membe__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="WebBookStoreModel.FK__tbl_produ___cate__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="WebBookStoreModel.FK__tbl_membe___memb__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="WebBookStoreModel.FK__tbl_order___orde__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="WebBookStoreModel.FK__tbl_order___paym__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="WebBookStoreModel.FK__tbl_payme__order__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="WebBookStoreModel.FK__tbl_payme__payme__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="WebBookStoreModel.FK__tbl_produ___prod__412EB0B6" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

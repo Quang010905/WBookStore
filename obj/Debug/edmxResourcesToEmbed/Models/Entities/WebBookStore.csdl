@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WebBookStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tbl_cart">
+    <Key>
+      <PropertyRef Name="C_id" />
+    </Key>
+    <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_price" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="C_date" Type="DateTime" Precision="3" />
+    <Property Name="C_quantity" Type="Int32" />
+    <Property Name="C_member_id" Type="Int32" />
+    <Property Name="C_product_id" Type="Int32" />
+    <NavigationProperty Name="tbl_member" Relationship="Self.FK__tbl_cart___membe__440B1D61" FromRole="tbl_cart" ToRole="tbl_member" />
+  </EntityType>
+  <EntityType Name="tbl_category">
+    <Key>
+      <PropertyRef Name="C_id" />
+    </Key>
+    <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="C_active" Type="Int32" />
+    <Property Name="C_image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tbl_product" Relationship="Self.FK__tbl_produ___cate__3E52440B" FromRole="tbl_category" ToRole="tbl_product" />
+  </EntityType>
+  <EntityType Name="tbl_member">
+    <Key>
+      <PropertyRef Name="C_id" />
+    </Key>
+    <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="C_password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="C_email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="C_address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="C_phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="C_role" Type="Int32" />
+    <Property Name="C_active" Type="Int32" />
+    <NavigationProperty Name="tbl_cart" Relationship="Self.FK__tbl_cart___membe__440B1D61" FromRole="tbl_member" ToRole="tbl_cart" />
+    <NavigationProperty Name="tbl_member_address" Relationship="Self.FK__tbl_membe___memb__398D8EEE" FromRole="tbl_member" ToRole="tbl_member_address" />
+  </EntityType>
+  <EntityType Name="tbl_member_address">
+    <Key>
+      <PropertyRef Name="C_id" />
+    </Key>
+    <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="C_member_id" Type="Int32" />
+    <NavigationProperty Name="tbl_member" Relationship="Self.FK__tbl_membe___memb__398D8EEE" FromRole="tbl_member_address" ToRole="tbl_member" />
+  </EntityType>
+  <EntityType Name="tbl_order">
+    <Key>
+      <PropertyRef Name="C_id" />
+    </Key>
+    <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_date" Type="DateTime" Precision="3" />
+    <Property Name="C_active" Type="Int32" />
+    <Property Name="C_member_id" Type="Int32" />
+    <Property Name="C_totalPrice" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="C_payment_method_id" Type="Int32" />
+    <NavigationProperty Name="tbl_order_detail" Relationship="Self.FK__tbl_order___orde__4BAC3F29" FromRole="tbl_order" ToRole="tbl_order_detail" />
+    <NavigationProperty Name="tbl_payment_method" Relationship="Self.FK__tbl_order___paym__48CFD27E" FromRole="tbl_order" ToRole="tbl_payment_method" />
+    <NavigationProperty Name="tbl_payment" Relationship="Self.FK__tbl_payme__order__4E88ABD4" FromRole="tbl_order" ToRole="tbl_payment" />
+  </EntityType>
+  <EntityType Name="tbl_order_detail">
+    <Key>
+      <PropertyRef Name="C_id" />
+    </Key>
+    <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_price" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="C_quantity" Type="Int32" />
+    <Property Name="C_order_id" Type="Int32" />
+    <Property Name="C_product_id" Type="Int32" />
+    <NavigationProperty Name="tbl_order" Relationship="Self.FK__tbl_order___orde__4BAC3F29" FromRole="tbl_order_detail" ToRole="tbl_order" />
+  </EntityType>
+  <EntityType Name="tbl_payment">
+    <Key>
+      <PropertyRef Name="C_id" />
+    </Key>
+    <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="order_id" Type="Int32" />
+    <Property Name="payment_method_id" Type="Int32" />
+    <Property Name="transaction_id" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="vnpay_txn_ref" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="vnpay_bank_code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="vnpay_card_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="vnpay_pay_date" Type="DateTime" Precision="3" />
+    <Property Name="vnpay_response_code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="payment_status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="amount" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="raw_request" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="raw_response" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="created_at" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_order" Relationship="Self.FK__tbl_payme__order__4E88ABD4" FromRole="tbl_payment" ToRole="tbl_order" />
+    <NavigationProperty Name="tbl_payment_method" Relationship="Self.FK__tbl_payme__payme__4F7CD00D" FromRole="tbl_payment" ToRole="tbl_payment_method" />
+  </EntityType>
+  <EntityType Name="tbl_payment_method">
+    <Key>
+      <PropertyRef Name="C_id" />
+    </Key>
+    <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="C_active" Type="Int32" />
+    <NavigationProperty Name="tbl_order" Relationship="Self.FK__tbl_order___paym__48CFD27E" FromRole="tbl_payment_method" ToRole="tbl_order" />
+    <NavigationProperty Name="tbl_payment" Relationship="Self.FK__tbl_payme__payme__4F7CD00D" FromRole="tbl_payment_method" ToRole="tbl_payment" />
+  </EntityType>
+  <EntityType Name="tbl_product">
+    <Key>
+      <PropertyRef Name="C_id" />
+    </Key>
+    <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="C_active" Type="Int32" />
+    <Property Name="C_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="C_image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="C_price" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="C_quantity" Type="Int32" />
+    <Property Name="C_type" Type="Int32" />
+    <Property Name="C_category_id" Type="Int32" />
+    <NavigationProperty Name="tbl_category" Relationship="Self.FK__tbl_produ___cate__3E52440B" FromRole="tbl_product" ToRole="tbl_category" />
+    <NavigationProperty Name="tbl_product_image" Relationship="Self.FK__tbl_produ___prod__412EB0B6" FromRole="tbl_product" ToRole="tbl_product_image" />
+  </EntityType>
+  <EntityType Name="tbl_product_image">
+    <Key>
+      <PropertyRef Name="C_id" />
+    </Key>
+    <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_index" Type="Int32" />
+    <Property Name="C_image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="C_product_id" Type="Int32" />
+    <NavigationProperty Name="tbl_product" Relationship="Self.FK__tbl_produ___prod__412EB0B6" FromRole="tbl_product_image" ToRole="tbl_product" />
+  </EntityType>
+  <Association Name="FK__tbl_cart___membe__440B1D61">
+    <End Role="tbl_member" Type="Self.tbl_member" Multiplicity="0..1" />
+    <End Role="tbl_cart" Type="Self.tbl_cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_member">
+        <PropertyRef Name="C_id" />
+      </Principal>
+      <Dependent Role="tbl_cart">
+        <PropertyRef Name="C_member_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_produ___cate__3E52440B">
+    <End Role="tbl_category" Type="Self.tbl_category" Multiplicity="0..1" />
+    <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_category">
+        <PropertyRef Name="C_id" />
+      </Principal>
+      <Dependent Role="tbl_product">
+        <PropertyRef Name="C_category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_membe___memb__398D8EEE">
+    <End Role="tbl_member" Type="Self.tbl_member" Multiplicity="0..1" />
+    <End Role="tbl_member_address" Type="Self.tbl_member_address" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_member">
+        <PropertyRef Name="C_id" />
+      </Principal>
+      <Dependent Role="tbl_member_address">
+        <PropertyRef Name="C_member_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_order___orde__4BAC3F29">
+    <End Role="tbl_order" Type="Self.tbl_order" Multiplicity="0..1" />
+    <End Role="tbl_order_detail" Type="Self.tbl_order_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_order">
+        <PropertyRef Name="C_id" />
+      </Principal>
+      <Dependent Role="tbl_order_detail">
+        <PropertyRef Name="C_order_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_order___paym__48CFD27E">
+    <End Role="tbl_payment_method" Type="Self.tbl_payment_method" Multiplicity="0..1" />
+    <End Role="tbl_order" Type="Self.tbl_order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_payment_method">
+        <PropertyRef Name="C_id" />
+      </Principal>
+      <Dependent Role="tbl_order">
+        <PropertyRef Name="C_payment_method_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_payme__order__4E88ABD4">
+    <End Role="tbl_order" Type="Self.tbl_order" Multiplicity="0..1" />
+    <End Role="tbl_payment" Type="Self.tbl_payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_order">
+        <PropertyRef Name="C_id" />
+      </Principal>
+      <Dependent Role="tbl_payment">
+        <PropertyRef Name="order_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_payme__payme__4F7CD00D">
+    <End Role="tbl_payment_method" Type="Self.tbl_payment_method" Multiplicity="0..1" />
+    <End Role="tbl_payment" Type="Self.tbl_payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_payment_method">
+        <PropertyRef Name="C_id" />
+      </Principal>
+      <Dependent Role="tbl_payment">
+        <PropertyRef Name="payment_method_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_produ___prod__412EB0B6">
+    <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="0..1" />
+    <End Role="tbl_product_image" Type="Self.tbl_product_image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_product">
+        <PropertyRef Name="C_id" />
+      </Principal>
+      <Dependent Role="tbl_product_image">
+        <PropertyRef Name="C_product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="WebBookStoreEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="tbl_cart" EntityType="Self.tbl_cart" />
+    <EntitySet Name="tbl_category" EntityType="Self.tbl_category" />
+    <EntitySet Name="tbl_member" EntityType="Self.tbl_member" />
+    <EntitySet Name="tbl_member_address" EntityType="Self.tbl_member_address" />
+    <EntitySet Name="tbl_order" EntityType="Self.tbl_order" />
+    <EntitySet Name="tbl_order_detail" EntityType="Self.tbl_order_detail" />
+    <EntitySet Name="tbl_payment" EntityType="Self.tbl_payment" />
+    <EntitySet Name="tbl_payment_method" EntityType="Self.tbl_payment_method" />
+    <EntitySet Name="tbl_product" EntityType="Self.tbl_product" />
+    <EntitySet Name="tbl_product_image" EntityType="Self.tbl_product_image" />
+    <AssociationSet Name="FK__tbl_cart___membe__440B1D61" Association="Self.FK__tbl_cart___membe__440B1D61">
+      <End Role="tbl_member" EntitySet="tbl_member" />
+      <End Role="tbl_cart" EntitySet="tbl_cart" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_produ___cate__3E52440B" Association="Self.FK__tbl_produ___cate__3E52440B">
+      <End Role="tbl_category" EntitySet="tbl_category" />
+      <End Role="tbl_product" EntitySet="tbl_product" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_membe___memb__398D8EEE" Association="Self.FK__tbl_membe___memb__398D8EEE">
+      <End Role="tbl_member" EntitySet="tbl_member" />
+      <End Role="tbl_member_address" EntitySet="tbl_member_address" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_order___orde__4BAC3F29" Association="Self.FK__tbl_order___orde__4BAC3F29">
+      <End Role="tbl_order" EntitySet="tbl_order" />
+      <End Role="tbl_order_detail" EntitySet="tbl_order_detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_order___paym__48CFD27E" Association="Self.FK__tbl_order___paym__48CFD27E">
+      <End Role="tbl_payment_method" EntitySet="tbl_payment_method" />
+      <End Role="tbl_order" EntitySet="tbl_order" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_payme__order__4E88ABD4" Association="Self.FK__tbl_payme__order__4E88ABD4">
+      <End Role="tbl_order" EntitySet="tbl_order" />
+      <End Role="tbl_payment" EntitySet="tbl_payment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_payme__payme__4F7CD00D" Association="Self.FK__tbl_payme__payme__4F7CD00D">
+      <End Role="tbl_payment_method" EntitySet="tbl_payment_method" />
+      <End Role="tbl_payment" EntitySet="tbl_payment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_produ___prod__412EB0B6" Association="Self.FK__tbl_produ___prod__412EB0B6">
+      <End Role="tbl_product" EntitySet="tbl_product" />
+      <End Role="tbl_product_image" EntitySet="tbl_product_image" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

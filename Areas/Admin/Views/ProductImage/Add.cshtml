@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Add Image</h2>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<form action="@Url.Action("AddImg", "ProductImage")" method="post" enctype="multipart/form-data">
+    <div>
+        <label>Image</label>
+        <input type="file" id="upFile" name="upFile" />
+    </div>
+    <div class="form-group mb-3">
+        <label>Index </label>
+        <input type="number" min="1" name="Index" placeholder="Index" class="form-control" required />
+    </div>
+    <div>
+        <input type="hidden" name="proId" value="@ViewBag.proId"/>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="@Url.Action("Index", "ProductImage", new {id = ViewBag.proId})" class="btn btn-secondary">Back</a>
+    </div>
+</form>
+
+

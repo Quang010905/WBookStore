@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section headerContent
+{
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.material.mobile.min.css" />
+}
+<h2>Create Product</h2>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<form action="@Url.Action("Add", "Product")" method="post" enctype="multipart/form-data">
+    <div class="form-group mb-3">
+        <label>Product Name </label>
+        <input type="text" name="name" placeholder="Product Name" id="Name" class="form-control" required/>
+    </div>
+    <div class="form-group mb-3">
+        <label>Product Price </label>
+        <input type="text" placeholder="e.g. 10.000" id="proPriceFormatted" class="form-control" required/>
+        <input type="hidden" name="price" id="price" />
+    </div>
+    <div class="form-group mb-3">
+        <label>Product Quantity </label>
+        <input type="text" placeholder="e.g. 10.000" class="form-control" id="proQuantityFormatted" required/>
+        <input type="hidden" name="quantity" id="quantity" />
+    </div>
+    <div class="form-group mb-3">
+        <label>Active</label><br />
+        <input type="checkbox" name="active" />
+        <label class="form-check-label" for="Active">Enable</label>
+    </div>
+    <div>
+        <label class="form-group mb-3">Story Type</label>
+        <select name="type" id="type" class="form-control" required>
+            <option value="">-- Select story type --</option>
+            <option value="1">Comic</option>
+            <option value="2">Novel</option>
+        </select>
+    </div>
+    <div>
+        <label class="form-group mb-3">Category</label>
+        <select name="cateId" id="cateId" class="form-control" required>
+            <option value="">-- Select category --</option>
+            @if (ViewBag.Categories != null)
+            {
+                var ls = (List<WBookStore.Models.ModelViews.CategoryView>)ViewBag.Categories;
+                foreach (var item in ls)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            }
+        </select>
+    </div>
+    <div>
+        <label>Description</label>
+        <textarea id="Description" name="description"></textarea>
+    </div>
+    <div>
+        <label>Image</label>
+        <input type="file" id="upFile" name="upFile" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="@Url.Action("Index", "Product")" class="btn btn-secondary">Back</a>
+    </div>
+</form>
+@section scripts
+{
+    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.all.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var editor = $("#Description").kendoEditor({
+                tools: [
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strikethrough",
+                    "justifyLeft",
+                    "justifyCenter",
+                    "justifyRight",
+                    "justifyFull",
+                    "insertUnorderedList",
+                    "insertOrderedList",
+                    "indent",
+                    "outdent",
+                    "createLink",
+                    "unlink",
+                    "insertImage",
+                    "insertFile",
+                    "subscript",
+                    "superscript",
+                    "tableWizard",
+                    "addRowAbove",
+                    "addRowBelow",
+                    "addColumnLeft",
+                    "addColumnRight",
+                    "deleteRow",
+                    "deleteColumn",
+                    "viewHtml",
+                    "formatting",
+                    "cleanFormatting",
+                    "fontName",
+                    "fontSize",
+                    "foreColor",
+                    "backColor",
+                    "print",
+                ]
+            }).data("kendoEditor");
+
+            $("form").on("submit", function (e) {
+                var content = editor.value().trim();
+                var description = document.getElementById('Description').value.trim();
+                if (!content || !description) {
+                    e.preventDefault();
+                    alert("Please enter description");
+                    return false;
+                }
+            });
+        });
+    </script>
+    <script>
+        function setupFormattedInput(formattedId, hiddenId) {
+            const formattedInput = document.getElementById(formattedId);
+            const hiddenInput = document.getElementById(hiddenId);
+
+            formattedInput.addEventListener('input', function () {
+                // Xóa các ký tự không phải số
+                let raw = this.value.replace(/\D/g, '');
+
+                // Gán giá trị thật vào input ẩn
+                hiddenInput.value = raw;
+
+                // Hiển thị lại có dấu chấm hàng nghìn
+                this.value = raw.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            });
+        }
+
+        // Gọi hàm cho cả quantity và price
+        setupFormattedInput('proQuantityFormatted', 'quantity');
+        setupFormattedInput('proPriceFormatted', 'price');
+    </script>
+}
+

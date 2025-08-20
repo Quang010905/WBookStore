@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "Product Management";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid">
+    <h2 class="mb-4">📦 Product List</h2>
+    <p>
+        @Html.ActionLink("Create New Product", "Add", null, new { @class = "btn btn-primary" })
+    </p>
+    <!-- Alert Messages -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <!-- Search Form -->
+    <form method="get" action="@Url.Action("Index", "Product")" class="mb-4">
+        <div class="input-group" style="max-width: 400px;">
+            <input type="text" name="search" value="@ViewBag.Search" placeholder="🔍 Search product name..."
+                   class="form-control" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">
+                    Search
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Product Table -->
+    @if (ViewBag.listProduct != null)
+    {
+        var ls = (List<WBookStore.Models.ModelViews.ProductView>)ViewBag.listProduct;
+        if (ls != null && ls.Count > 0)
+        {
+            int i = ViewBag.StartIndex;
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Type</th>
+                                    <th>Category</th>
+                                    <th>Active</th>
+                                    <th>Image</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ls)
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.Price.ToString("N0") VND</td>
+                                        <td>@item.Quantity</td>
+                                        <td>
+                                            @if (item.Type == 1)
+                                            {
+                                                <span style="color:blue">Comic</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="color:navy">Novel</span>
+                                            }
+                                        </td>
+                                        @{
+                                            var categories = (List<WBookStore.Models.ModelViews.CategoryView>)ViewBag.Categories;
+                                            var cateName = categories.FirstOrDefault(c => c.Id == item.category_id)?.Name ?? "N/A";
+                                        }
+                                        <td>@cateName</td>
+                                        <td>
+                                            @if (item.Active == 1)
+                                            {
+                                                <span style="color:green">In Stock</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="color:red">Out Stock</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <img src="@Url.Content("~/Content/Image/" + item.Image)"
+                                                 class="img-thumbnail"
+                                                 style="width:80px; height:80px;" />
+
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", "Product", new {id = item.Id})">
+                                                <img src="@Url.Content("~/Content/Icon/pen.png")" style="width:1vw; height:2vh;" />
+                                            </a>
+                                            <a href="@Url.Action("Delete", "Product", new {id = item.Id})" onclick="return confirm('Are you sure to delete this category?')">
+                                                <img src="@Url.Content("~/Content/Icon/delete.png")" style="width:1vw; height:2vh;" />
+                                            </a>
+                                            <a href="@Url.Action("Index", "ProductImage", new {id = item.Id})">
+                                                <img src="@Url.Content("~/Content/Icon/addImage.png")" style="width:1vw; height:2vh;" />
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation" class="mt-3">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1, search = ViewBag.Search })">Previous</a>
+                    </li>
+
+                    @for (int j = 1; j <= ViewBag.TotalPages; j++)
+                    {
+                        <li class="page-item @(j == ViewBag.CurrentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index", new { page = j, search = ViewBag.Search })">@j</a>
+                        </li>
+                    }
+
+                    <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1, search = ViewBag.Search })">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        }
+        else
+        {
+            <div class="alert alert-info text-center">
+                No Product Found.
+            </div>
+        }
+    }
+</div>
