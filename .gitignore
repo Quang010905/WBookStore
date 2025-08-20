@@ -1,6 +1,7 @@
 ﻿# Ignore build outputs
 bin/
 obj/
+web.config     # bỏ qua file web.config, sẽ không commit
 
 # Ignore Visual Studio folder
 .vs/
