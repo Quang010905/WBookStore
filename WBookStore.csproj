@@ -240,6 +240,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\Admin\css\sb-admin-2.css" />
     <Content Include="Content\Admin\css\sb-admin-2.min.css" />
